@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.CommentsMapper">
+    <resultMap id="BaseResultMap" type="entity.Comments" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="hotEventsId" property="hoteventsid" />
+        <result column="commentDate" property="commentdate" />
+        <result column="content" property="content" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, hotEventsId, commentDate, content
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from comments
+        where hotEventsId = #{id,jdbcType=BIGINT}
+        order by commentDate desc
+    </select>
+
+    <insert id="insert" parameterType="entity.Comments" >
+    insert into comments (hotEventsId, commentDate,
+      content)
+    values (#{hoteventsid,jdbcType=BIGINT}, now(),
+      #{content,jdbcType=VARCHAR})
+  </insert>
+
+</mapper>

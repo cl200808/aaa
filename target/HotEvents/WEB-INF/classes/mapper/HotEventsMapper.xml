@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.HotEventsMapper">
+    <select id="selectAll" resultType="entity.HotEvents">
+        select * from hotevents
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and keyWord like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+        order by searchsum desc
+        limit #{pageBean.rowStart},#{pageBean.pageSize}
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1) count from hotevents
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and keyWord like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+        order by searchsum desc
+    </select>
+    <select id="selectById" resultType="entity.HotEvents">
+        select * from hotevents where 1=1
+        <if test="id!=null and id!=''">
+            and id=#{id}
+        </if>
+    </select>
+    <update id="updateNum">
+  	update hotevents set searchSum=searchSum+1 where id=#{id}
+  </update>
+
+</mapper>
